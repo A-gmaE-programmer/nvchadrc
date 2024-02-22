@@ -6,7 +6,7 @@ local options = {
     javascript = { "quick-lint-js", "eslint_d", "biome" },
     typescript = { "quick-lint-js", "eslint_d", "biome" },
     jsx = { "biome", "prettier" },
-    tsx = { "biome", "prettier", "prettier" },
+    typescriptreact = { "biome", "prettier", "prettier" },
     css = { "prettierd", "prettier" },
     html = { "prettierd", "prettier" },
 

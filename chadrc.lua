@@ -8,7 +8,7 @@ local highlights = require "custom.highlights"
 
 M.ui = {
   theme = "penumbra_dark",
-  theme_toggle = { "penumbra_dark", "penumbra_dark_light" },
+  theme_toggle = { "penumbra_dark", "blossom_light" },
   statusline = {
     -- modules arg here is the default table of modules
     overriden_modules = function (modules)

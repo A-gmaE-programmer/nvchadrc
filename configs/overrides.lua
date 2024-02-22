@@ -57,6 +57,7 @@ M.mason = {
     "quick-lint-js",
 
     -- scripting
+    "bash-language-server",
     "bash-debug-adapter",
     "shfmt",
     "pyright",
