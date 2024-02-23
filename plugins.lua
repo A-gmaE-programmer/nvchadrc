@@ -12,7 +12,7 @@ local plugins = {
   {
     "stevearc/conform.nvim",
     config = function ()
-      require("custom.config.conform")
+      require "custom.configs.conform"
     end
   },
   {
