@@ -23,6 +23,8 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
+vim.keymap.set({'n', 'i'}, '<C-i>', vim.diagnostic.open_float, { buffer = true })
+
 -- Conform format command
 vim.api.nvim_create_user_command(
   'Format',
