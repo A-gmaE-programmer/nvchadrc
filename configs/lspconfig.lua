@@ -6,10 +6,10 @@ local lspconfig = require "lspconfig"
 local servers = { "bashls", "html", "cssls", "clangd", "pyright", "tsserver" }
 -- "codelldb", "bash-debug-adapter", "eslint"
 servers = {
-  cssls = { capabilities = capabilities },
+  cssls = {},
   html = { filetypes = { 'html', 'templ', 'typescriptreact'} },
   htmx = { filetypes = { 'html', 'templ', 'typescriptreact'} },
-  jsonls = { capabilities = capabilities },
+  jsonls = {},
   tsserver = {},
   tailwindcss = {},
   denols = { root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc")}, -- deno.json
@@ -22,6 +22,8 @@ servers = {
 }
 
 for lsp, opts in pairs(servers) do
+  opts.on_attach = on_attach
+  opts.capabilities = capabilities
   lspconfig[lsp].setup(opts)
 end
 
