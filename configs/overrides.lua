@@ -33,7 +33,7 @@ M.treesitter = {
     }
   },
   compilers = {
-    "clang";
+    "clang",
   }
 }
 
@@ -66,7 +66,7 @@ M.mason = {
     "clangd",
     "cpplint",
     "zls",
-  }
+  },
 }
 
 -- git support in nvimtree
@@ -84,6 +84,10 @@ M.nvimtree = {
     },
   },
 }
+
+M.trouble = {}
+
+M.todoComments = {}
 
 return M
 

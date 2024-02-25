@@ -3,9 +3,7 @@ local on_attach = configs.on_attach
 local capabilities = configs.capabilities
 
 local lspconfig = require "lspconfig"
-local servers = { "bashls", "html", "cssls", "clangd", "pyright", "tsserver" }
--- "codelldb", "bash-debug-adapter", "eslint"
-servers = {
+local servers = {
   cssls = {},
   html = { filetypes = { 'html', 'templ', 'typescriptreact'} },
   htmx = { filetypes = { 'html', 'templ', 'typescriptreact'} },
@@ -19,6 +17,8 @@ servers = {
   pyright = {},
   clangd = {},
   zls = {},
+  ruff_lsp = {},
+  pylsp = {},
 }
 
 for lsp, opts in pairs(servers) do

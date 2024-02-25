@@ -27,6 +27,16 @@ local plugins = {
     "nvim-tree/nvim-tree.lua",
     opts = overrides.nvimtree
   },
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = overrides.trouble
+  },
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    ops = overrides.todoComments
+  }
 }
 
 return plugins

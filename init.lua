@@ -23,7 +23,8 @@ vim.api.nvim_create_autocmd('FileType', {
   end
 })
 
-vim.keymap.set({'n', 'i'}, '<C-i>', vim.diagnostic.open_float, { buffer = true })
+-- Advanced lsp diagnostics
+vim.keymap.set('n', 'g?', function () require('trouble').toggle() end)
 
 -- Conform format command
 vim.api.nvim_create_user_command(
@@ -55,4 +56,3 @@ vim.api.nvim_create_user_command(
 vim.g.markdown_fenced_languages = {
   "ts=typescript"
 }
-
