@@ -19,6 +19,7 @@ local servers = {
   zls = {},
   ruff_lsp = {},
   pylsp = {},
+  pylyzer = { single_file_support = false, root_dir = lspconfig.util.root_pattern("pylyzer") },
 }
 
 for lsp, opts in pairs(servers) do
