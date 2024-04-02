@@ -4,9 +4,9 @@ local capabilities = configs.capabilities
 
 local lspconfig = require "lspconfig"
 local servers = {
-  cssls = {},
-  html = { filetypes = { 'html', 'templ', 'typescriptreact'} },
-  htmx = { filetypes = { 'html', 'templ', 'typescriptreact'} },
+  cssls = { filetypes = { 'html', 'css', 'scss', 'less' } },
+  html = { filetypes = { 'html', 'templ', 'typescriptreact' } },
+  htmx = { filetypes = { 'html', 'templ', 'typescriptreact' } },
   jsonls = {},
   tsserver = {},
   tailwindcss = {},
@@ -20,6 +20,7 @@ local servers = {
   ruff_lsp = {},
   pylsp = {},
   pylyzer = { single_file_support = false, root_dir = lspconfig.util.root_pattern("pylyzer") },
+  -- java_language_server = { single_file_support = true, cmd = { '/home/kevin/Documents/java-language-server/dist/lang_server_linux.sh' } },
 }
 
 for lsp, opts in pairs(servers) do

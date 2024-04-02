@@ -7,8 +7,8 @@ M.plugins = "custom.plugins"
 local highlights = require "custom.highlights"
 
 M.ui = {
-  theme = "oceanic-next",
-  theme_toggle = { "oceanic-next", "everforest_light" },
+  theme = "tokyodark",
+  theme_toggle = { "tokyodark", "everforest_light" },
   statusline = {
     -- modules arg here is the default table of modules
     overriden_modules = function (modules)
