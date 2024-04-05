@@ -18,7 +18,13 @@ M.ui = {
         return "%#ST_location#" .. "col " .. col .. ", " .. line .. " of " ..lastline .. " lines"
       end,
       session = function()
-        return "%#ST_autosession#-> " .. require('auto-session.lib').current_session_name() .. " "
+        -- Session name getter
+        local sng = require('auto-session.lib').current_session_name
+        if sng then
+          return "%#ST_autosession#-> " .. require('auto-session.lib').current_session_name() .. " "
+        else
+          return ""
+        end
       end,
     },
     -- modules arg here is the default table of modules
