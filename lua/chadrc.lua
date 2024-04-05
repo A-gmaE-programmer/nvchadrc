@@ -19,9 +19,9 @@ M.ui = {
       end,
       session = function()
         -- Session name getter
-        local sng = require('auto-session.lib').current_session_name
-        if sng then
-          return "%#ST_autosession#-> " .. require('auto-session.lib').current_session_name() .. " "
+        local status, ret = pcall(require('auto-session.lib').current_session_name)
+        if status then
+          return "%#ST_autosession#-> " .. ret .. " "
         else
           return ""
         end
