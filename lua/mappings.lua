@@ -16,6 +16,10 @@ map('n', 'g?', function () require('trouble').toggle() end)
 -- Session switcher
 map('n', '<leader>ss', require('auto-session.session-lens').search_session, { noremap = true })
 
+-- Lazy
+vim.keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader>M", "<cmd>Mason<CR>", { noremap = true, silent = true })
+
 -- tabout
 map('i', '<tab>', function ()
   local col = vim.fn.col(".")
