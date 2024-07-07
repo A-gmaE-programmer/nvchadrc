@@ -10,8 +10,12 @@ map("i", "jk", "<ESC>")
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
 
+-- Floating lsp diagnostics
+map('n', '<leader>lq', vim.lsp.buf.code_action, { noremap = true, desc = "Quick Fix" })
+map('n', '<leader>lf', vim.diagnostic.open_float, { noremap = true, desc = "Floating Diagnostic" })
+map('n', '<leader>ln', vim.diagnostic.goto_next, { noremap = true, desc = "Goto next error" })
 -- Advanced lsp diagnostics
-map('n', 'g?', function () require('trouble').toggle() end)
+map('n', 'g?', function () require('trouble').toggle() end, { desc = "Error List" })
 
 -- Session switcher
 map('n', '<leader>ss', require('auto-session.session-lens').search_session, { noremap = true })
@@ -20,7 +24,7 @@ map('n', '<leader>ss', require('auto-session.session-lens').search_session, { no
 vim.keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>M", "<cmd>Mason<CR>", { noremap = true, silent = true })
 
--- tabout
+-- tab out
 map('i', '<tab>', function ()
   local col = vim.fn.col(".")
   --local lastcol = vim.fn.col("$") - 1
