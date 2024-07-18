@@ -33,20 +33,12 @@ require("lazy").setup({
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
-require "nvchad.autocmds"
+require "autocmds"
 
 vim.schedule(function()
   -- require "mappings"
   require 'mappings.m'
 end)
-
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { "*.ts", "typescript", "javascript" },
-  callback = function ()
-    vim.cmd("setlocal shiftwidth=4")
-    vim.cmd("echo 'setting shiftwidth to 4'")
-  end
-})
 
 -- Conform format command
 vim.api.nvim_create_user_command(
