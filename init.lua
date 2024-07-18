@@ -4,6 +4,7 @@ vim.g.mapleader = " "
 -- bootstrap lazy and all plugins
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
+-- If there is no info on lazy: clone the git repo and load it
 if not vim.loop.fs_stat(lazypath) then
   local repo = "https://github.com/folke/lazy.nvim.git"
   vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
@@ -35,7 +36,8 @@ dofile(vim.g.base46_cache .. "statusline")
 require "nvchad.autocmds"
 
 vim.schedule(function()
-  require "mappings"
+  -- require "mappings"
+  require 'mappings.m'
 end)
 
 vim.api.nvim_create_autocmd('FileType', {
@@ -72,6 +74,19 @@ vim.api.nvim_create_user_command(
   { range = true }
 )
 
-vim.g.markdown_fenced_languages = {
-  "ts=typescript"
-}
+-- vim.diagnostic.config {
+--   float = {
+--     border = 'rounded'
+--   }
+-- }
+
+-- Ctrl + H for tty
+vim.schedule(
+  function()
+    if vim.env.TERM == "linux" then
+      vim.keymap.del("i", "<C-h>")
+      -- vim.keymap.set("i", "<C-h>", "<BS>")
+    end
+  end
+)
+

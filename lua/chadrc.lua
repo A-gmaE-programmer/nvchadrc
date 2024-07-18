@@ -5,8 +5,8 @@
 local M = {}
 
 M.ui = {
-	theme = "onedark",
-  theme_toggle = { "tokyodark", "everforest_light" },
+	theme = "flexoki",
+  theme_toggle = { "flexoki", "flexoki_light" },
   statusline = {
     order = { "mode", "file", "git", "%=", "cursorStats", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "session", "cursor" },
     modules = {

@@ -10,6 +10,9 @@ map("i", "jk", "<ESC>")
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
 
+-- LSP info
+map({'n', 'v'}, 'K', vim.lsp.buf.hover, { noremap = true, desc = "Lsp Info" })
+
 -- Floating lsp diagnostics
 map('n', '<leader>lq', vim.lsp.buf.code_action, { noremap = true, desc = "Quick Fix" })
 map('n', '<leader>lf', vim.diagnostic.open_float, { noremap = true, desc = "Floating Diagnostic" })
