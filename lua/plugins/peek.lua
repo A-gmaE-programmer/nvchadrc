@@ -3,10 +3,11 @@ return {
   event = { "VeryLazy" },
   build = "deno task --quiet build:fast",
   cmd = { "PeekOpen", "PeekClose" },
-  config = function()
-    require("peek").setup({
-      app = { 'chromium', '--new-window' },
-    })
+  opts = {
+    app = { 'chromium', '--new-window' },
+  },
+  config = function(_, opts)
+    require("peek").setup(opts)
     vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
     vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
   end,

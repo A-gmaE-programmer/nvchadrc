@@ -3,7 +3,6 @@ return {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     cmd = { 'Trouble' },
-    opts = {}
   },
   {
     "folke/todo-comments.nvim",
@@ -17,8 +16,17 @@ return {
         pattern = [[<(KEYWORDS)\s*]],
       }
     },
-    config = function (_, opts)
-      require("todo-comments").setup(opts)
+    -- config = function (_, opts)
+    --   require("todo-comments").setup(opts)
+    -- end,
+  },
+  {
+    "folke/which-key.nvim",
+    keys = { "<leader>", "<c-r>", "<c-w>", '"', "'", "`", "c", "v", "g" },
+    cmd = "WhichKey",
+    config = function(_, opts)
+      dofile(vim.g.base46_cache .. "whichkey")
+      require("which-key").setup(opts)
     end,
   },
 }

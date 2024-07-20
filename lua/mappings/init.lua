@@ -1,11 +1,14 @@
 local map = vim.keymap.set
 
-require 'mappings/move_maps'
-require 'mappings/lsp_maps'
-require 'mappings/file_maps'
-require 'mappings/term_maps'
-require 'mappings/telescope_maps'
+require 'mappings.move_maps'
+require 'mappings.diagnostic_maps'
+require 'mappings.file_maps'
+require 'mappings.term_maps'
+require 'mappings.telescope_maps'
 
+-- Mappings are also located in:
+-- plugins/gitsigns.lua
+-- configs/lspconfig.lua
 
 -- Misc mappings
 

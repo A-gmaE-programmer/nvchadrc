@@ -3,6 +3,7 @@ local o   = vim.o
 local g   = vim.g
 
 -------------------------------------- globals -----------------------------------------
+g.base46_enabled = false
 g.toggle_theme_icon = "   "
 g.markdown_fenced_languages = {
   "ts=typescript"

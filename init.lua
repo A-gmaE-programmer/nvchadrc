@@ -35,42 +35,19 @@ dofile(vim.g.base46_cache .. "statusline")
 
 require "autocmds"
 
+local x = vim.diagnostic.severity
+
+vim.diagnostic.config {
+  virtual_text = { prefix = "" },
+  signs = { text = { [x.ERROR] = "󰅙", [x.WARN] = "", [x.INFO] = "󰋼", [x.HINT] = "󰌵" } },
+  underline = true,
+  float = { border = "rounded" },
+}
+
 vim.schedule(function()
   -- require "mappings"
-  require 'mappings.m'
+  require 'mappings'
 end)
-
--- Conform format command
-vim.api.nvim_create_user_command(
-  'Format',
-  function (args)
-    local range = nil
-    if args.count ~= -1 then
-      local end_line = vim.api.nvim_buf_get_lines(
-        0,
-        args.line2 - 1,
-        args.line2,
-        true
-      )[1]
-      range = {
-        start = { args.line1, 0 },
-        ["end"] = { args.line2, end_line:len() },
-      }
-    end
-    require("conform").format({
-      async = true,
-      lsp_fallback = true,
-      range = range,
-    })
-  end,
-  { range = true }
-)
-
--- vim.diagnostic.config {
---   float = {
---     border = 'rounded'
---   }
--- }
 
 -- Ctrl + H for tty
 vim.schedule(
