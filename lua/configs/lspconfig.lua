@@ -1,4 +1,50 @@
 local map = vim.keymap.set
+local lspconfig = require "lspconfig"
+local root_pattern = lspconfig.util.root_pattern
+local servers = {
+
+  --- Web dev
+  cssls = { filetypes = { 'html', 'css', 'scss', 'less' } },
+  html = { filetypes = { 'html', 'templ', 'typescriptreact' } },
+  htmx = { filetypes = { 'html', 'templ', 'typescriptreact' } },
+  jsonls = {},
+  tsserver = {},
+  tailwindcss = {},
+  denols = { root_dir = root_pattern("deno.json", "deno.jsonc")}, -- deno.json
+  biome = {}, -- biome.json
+  quick_lint_js = {},
+
+  --- Scripting
+  lua_ls = { settings = { Lua = {
+    diagnostics = { globals = { "vim" } },
+    workspace = {
+      library = {
+        vim.fn.expand "$VIMRUNTIME/lua",
+        vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
+        vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
+        vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
+      },
+      maxPreload = 100000,
+      preloadFileSize = 10000,
+    }
+  } } },
+  bashls = {},
+  pyright = {},
+  ruff_lsp = {},
+  -- pylsp = {},
+  pylyzer = { single_file_support = false, root_dir = root_pattern("pylyzer") },
+
+  -- Java?
+  -- java_language_server = { single_file_support = true, cmd = { '/home/kevin/Documents/java-language-server/dist/lang_server_linux.sh' } },
+  --
+  -- Low Level
+  clangd = { single_file_support = true },
+  -- ccls = { single_file_support = true },
+  zls = {},
+  -- harper_ls = { filetypes = { "markdown", "text" } },
+  markdown_oxide = {},
+}
+
 
 local on_attach = function(_, bufnr)
   local function opts(desc)
@@ -57,50 +103,6 @@ capabilities.textDocument.completion.completionItem = {
       "additionalTextEdits",
     },
   },
-}
-
-local lspconfig = require "lspconfig"
-local root_pattern = lspconfig.util.root_pattern
-local servers = {
-
-  --- Web dev
-  cssls = { filetypes = { 'html', 'css', 'scss', 'less' } },
-  html = { filetypes = { 'html', 'templ', 'typescriptreact' } },
-  htmx = { filetypes = { 'html', 'templ', 'typescriptreact' } },
-  jsonls = {},
-  tsserver = {},
-  tailwindcss = {},
-  denols = { root_dir = root_pattern("deno.json", "deno.jsonc")}, -- deno.json
-  biome = {}, -- biome.json
-  quick_lint_js = {},
-
-  --- Scripting
-  lua_ls = { settings = { Lua = {
-    diagnostics = { globals = { "vim" } },
-    workspace = {
-      library = {
-        vim.fn.expand "$VIMRUNTIME/lua",
-        vim.fn.expand "$VIMRUNTIME/lua/vim/lsp",
-        vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types",
-        vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy",
-      },
-      maxPreload = 100000,
-      preloadFileSize = 10000,
-    }
-  } } },
-  bashls = {},
-  -- pyright = {},
-  ruff_lsp = {},
-  pylsp = {},
-  pylyzer = { single_file_support = false, root_dir = root_pattern("pylyzer") },
-
-  -- Java?
-  -- java_language_server = { single_file_support = true, cmd = { '/home/kevin/Documents/java-language-server/dist/lang_server_linux.sh' } },
-  --
-  -- Low Level
-  clangd = { single_file_support = true },
-  -- ccls = { single_file_support = true },
-  zls = {},
 }
 
 for lsp, opts in pairs(servers) do

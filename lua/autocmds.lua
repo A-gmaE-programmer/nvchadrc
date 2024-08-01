@@ -33,3 +33,13 @@ autocmd('FileType', {
     vim.cmd("echo 'setting shiftwidth to 4'")
   end
 })
+
+autocmd('FileType', {
+  pattern = { "markdown" },
+  callback = function ()
+    vim.cmd("setlocal breakindent")
+    vim.cmd("setlocal breakindentopt=list:2")
+    vim.cmd("setlocal linebreak")
+    vim.cmd("echo 'Adjusting line breaks'")
+  end
+})

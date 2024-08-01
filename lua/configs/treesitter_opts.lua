@@ -12,7 +12,7 @@ local options = {
     "bash", "python", "lua", "luadoc",
 
     "markdown", "markdown_inline", "query",
-    "vim", "vimdoc",
+    "vim", "vimdoc", "latex",
   },
   indent = {
     enable = true,

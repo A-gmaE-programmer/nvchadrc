@@ -19,7 +19,12 @@ map('n', '<leader>ss', require('auto-session.session-lens').search_session, { no
 vim.keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>M", "<cmd>Mason<CR>", { noremap = true, silent = true })
 
+-- Femaco edit inline markdown
+map("n", "<leader>ie", require('femaco.edit').edit_code_block, {
+  desc = "Edit code in markdown codefences",
+})
 
+-- NvChad
 map("n", "<Esc>", "<cmd>noh<CR>", { desc = "general clear highlights" })
 
 map("n", "<leader>n", "<cmd>set nu!<CR>", { desc = "toggle line number" })

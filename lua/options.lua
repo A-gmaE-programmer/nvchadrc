@@ -3,6 +3,11 @@ local o   = vim.o
 local g   = vim.g
 
 -------------------------------------- globals -----------------------------------------
+vim.filetype.add({
+  extension = {
+    tikz = 'latex',
+  }
+})
 -- g.base46_enabled = false
 g.toggle_theme_icon = "   "
 g.markdown_fenced_languages = {
@@ -11,6 +16,11 @@ g.markdown_fenced_languages = {
 -------------------------------------- options ------------------------------------------
 o.laststatus = 3
 o.showmode = false
+
+-- How we indent wrapped words
+-- o.breakindent = true
+-- o.breakindentopt = "list:2"
+-- o.linebreak = true
 
 -- o.clipboard = "unnamedplus"
 o.clipboard = '' -- Disable clipboard
