@@ -6,6 +6,9 @@ local g   = vim.g
 vim.filetype.add({
   extension = {
     tikz = 'latex',
+    -- Editing sublime extensions
+    ['sublime-keymap'] = 'jsonc',
+    ['sublime-settings'] = 'jsonc',
   }
 })
 -- g.base46_enabled = false

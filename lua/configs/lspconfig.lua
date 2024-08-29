@@ -72,7 +72,8 @@ local on_attach = function(_, bufnr)
   end, opts "List workspace folders")
 
   -- Smart lsp renamer
-  map("n", "<leader>ra", function()
+  -- map("n", "<leader>ra", function()
+  map("n", "<leader>lr", function()
     require "nvchad.lsp.renamer"()
   end, opts "NvRenamer")
 
