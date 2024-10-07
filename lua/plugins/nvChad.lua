@@ -8,11 +8,12 @@ return {
   },
   {
     "NvChad/ui",
-    branch = "v2.5",
+    branch = "v3.0",
     lazy = false,
     config = function()
       require "nvchad"
     end,
+    dependencies = { "nvchad/volt", lazy = true, },
   },
   {
     "NvChad/nvim-colorizer.lua",
