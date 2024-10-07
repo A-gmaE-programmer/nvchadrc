@@ -8,7 +8,7 @@ local servers = {
   html = { filetypes = { 'html', 'templ', 'typescriptreact' } },
   htmx = { filetypes = { 'html', 'templ', 'typescriptreact' } },
   jsonls = {},
-  tsserver = {},
+  ts_ls = {},
   tailwindcss = {},
   denols = { root_dir = root_pattern("deno.json", "deno.jsonc")}, -- deno.json
   biome = {}, -- biome.json
@@ -41,6 +41,10 @@ local servers = {
   clangd = { single_file_support = true },
   -- ccls = { single_file_support = true },
   zls = {},
+  rust_analyzer = {},
+
+  cmake = { root_dir = root_pattern("CMakePresets.json", "CTestConfig.cmake", ".git", "build", "cmake", "CMakeLists.txt") },
+
   -- harper_ls = { filetypes = { "markdown", "text" } },
   markdown_oxide = {},
 }

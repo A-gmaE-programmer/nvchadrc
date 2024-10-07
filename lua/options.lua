@@ -20,6 +20,10 @@ g.markdown_fenced_languages = {
 o.laststatus = 3
 o.showmode = false
 
+o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
+o.nrformats = "alpha,hex,bin"
+
 -- How we indent wrapped words
 -- o.breakindent = true
 -- o.breakindentopt = "list:2"
