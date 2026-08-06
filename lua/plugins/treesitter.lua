@@ -11,6 +11,29 @@ return {
       dofile(vim.g.base46_cache .. "syntax")
       dofile(vim.g.base46_cache .. "treesitter")
     end)
-    require("nvim-treesitter.configs").setup(opts)
+    require("nvim-treesitter").install(opts.ensure_installed)
+
+    print(opts.ensure_installed)
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = opts.ensure_installed,
+      callback = function()
+        vim.treesitter.start()                                -- highlighting
+        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'   -- folds
+        -- vim.wo.foldmethod = 'expr'
+        -- vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" -- indentation
+      end,
+    })
+
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = opts.indent.enable,
+      callback = function()
+        -- vim.treesitter.start()                                -- highlighting
+        -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'   -- folds
+        -- vim.wo.foldmethod = 'expr'
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()" -- indentation
+      end,
+    })
+
   end,
 }

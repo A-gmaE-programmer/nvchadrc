@@ -1,6 +1,4 @@
 local map = vim.keymap.set
-local lspconfig = require "lspconfig"
-local root_pattern = lspconfig.util.root_pattern
 local servers = {
 
   --- Web dev
@@ -10,9 +8,9 @@ local servers = {
   jsonls = {},
   ts_ls = {},
   tailwindcss = {},
-  denols = { root_dir = root_pattern("deno.json", "deno.jsonc")}, -- deno.json
+  denols = { root_markers = { "deno.json", "deno.jsonc" } }, -- deno.json
   biome = {}, -- biome.json
-  quick_lint_js = {},
+  -- quick_lint_js = {},
 
   --- Scripting
   lua_ls = { settings = { Lua = {
@@ -30,25 +28,34 @@ local servers = {
   } } },
   bashls = {},
   pyright = {},
-  ruff_lsp = {},
+  -- ruff_lsp = {},
   -- pylsp = {},
-  pylyzer = { single_file_support = false, root_dir = root_pattern("pylyzer") },
+  pylyzer = { single_file_support = false, root_markers = { "pylyzer" } },
 
   -- Java?
   -- java_language_server = { single_file_support = true, cmd = { '/home/kevin/Documents/java-language-server/dist/lang_server_linux.sh' } },
-  --
+
   -- Low Level
-  clangd = { single_file_support = true },
+  clangd = {
+    single_file_support = true,
+    cmd = { "clangd", "--header-insertion=never" }
+  },
+  arduino_language_server = {},
   -- ccls = { single_file_support = true },
   zls = {},
   rust_analyzer = {},
 
-  cmake = { root_dir = root_pattern("CMakePresets.json", "CTestConfig.cmake", ".git", "build", "cmake", "CMakeLists.txt") },
+  cmake = { root_dir = { "CMakePresets.json", "CTestConfig.cmake", ".git", "build", "cmake", "CMakeLists.txt" } },
 
+  ltex_plus = { filetypes = { "nothing" } }, -- Very heavy english language server
   -- harper_ls = { filetypes = { "markdown", "text" } },
-  markdown_oxide = {},
+  -- markdown_oxide = {},
 }
 
+if os.getenv("CC") ~= "gcc.exe" then
+elseif string.find(os.getenv("Include") or "", "ucrt64-mingw64-mcf-gcc", 1, true) then
+  servers.clangd.init_options = { fallbackFlags = { "--target=x86_64-w64-mingw32" } }
+end
 
 local on_attach = function(_, bufnr)
   local function opts(desc)
@@ -85,9 +92,9 @@ end
 
 -- disable semanticTokens
 local on_init = function(client, _)
-  if client.supports_method "textDocument/semanticTokens" then
-    client.server_capabilities.semanticTokensProvider = nil
-  end
+  -- if client.supports_method "textDocument/semanticTokens" then
+  --   client.server_capabilities.semanticTokensProvider = nil
+  -- end
 end
 
 -- Enable various completion support
@@ -114,18 +121,9 @@ for lsp, opts in pairs(servers) do
   opts.on_attach = on_attach
   opts.on_init = on_init
   opts.capabilities = capabilities
-  lspconfig[lsp].setup(opts)
+  vim.lsp.config(lsp, opts)
+  vim.lsp.enable(lsp)
 end
-
-vim.lsp.handlers["textDocument/hover"] =
-vim.lsp.with(vim.lsp.handlers.hover, {
-  border = "rounded",
-})
-
-vim.lsp.handlers["textDocument/signatureHelp"] =
-vim.lsp.with(vim.lsp.handlers.signature_help, {
-  border = "rounded",
-})
 
 -- EXAMPLE 
 -- local on_attach = function (client, bufnum)

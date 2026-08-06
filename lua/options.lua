@@ -20,6 +20,8 @@ g.markdown_fenced_languages = {
 o.laststatus = 3
 o.showmode = false
 
+o.winborder = "rounded"
+
 o.sessionoptions="blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 o.nrformats = "alpha,hex,bin"

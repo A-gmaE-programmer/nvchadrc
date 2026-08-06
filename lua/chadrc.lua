@@ -1,22 +1,29 @@
 -- This file  needs to have same structure as nvconfig.lua 
 -- https://github.com/NvChad/NvChad/blob/v2.5/lua/nvconfig.lua
+local string = require("string")
 
 ---@type ChadrcConfig
 local M = {}
 
 M.base46 = {
-  theme = "flexoki",
-  theme_toggle = { "flexoki", "flexoki-light" },
+  theme = "onedark",
+  theme_toggle = { "onedark", "everforest_light" },
   transparency = false,
 	hl_override = {
-		Comment = { italic = true },
 		["@comment"] = { italic = true },
+
+    ["@lsp.type.macro"] = { link = "@function.macro" },
+    ["@lsp.type.parameter"] = { link = "@variable.parameter" },
+    ["@variable.parameter"] = { fg = "purple" },
 	},
   hl_add = {
     NvimTreeOpenedFolderName = { fg = "green", bold = true },
     ST_location = { fg = "blue", bg = "statusline_bg" },
     ST_autosession = { fg = "purple", bg = "one_bg" }
   },
+  integrations = {
+    "semantic_tokens", "gitsigns"
+  }
 }
 
 M.ui = {
@@ -34,6 +41,11 @@ M.ui = {
       session = function()
         -- Session name getter
         local status, ret = pcall(require('auto-session.lib').current_session_name)
+	local max_slen = vim.api.nvim_win_get_width(0) / 8
+	local slen = string.len(ret)
+	if max_slen < slen then
+	    ret = "..." .. string.sub(ret, slen - max_slen)
+	end
         if status then
           return "%#ST_autosession#-> " .. ret .. " "
         else

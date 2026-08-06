@@ -15,6 +15,10 @@ map("n", "<leader>fa",
   "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<CR>",
   { desc = "telescope find all files" }
 )
+-- Session switcher
+map("n", "<leader>ss", "<cmd>Telescope session-lens<cr>", { desc = "telescope session switcher" })
+-- "<cmd>Telescope session-lens search_session<cr>"
+
 
 -- Style can be either "bordered", "compact", or "flat"
 map("n", "<leader>th", function() require("nvchad.themes").open({ style = "bordered", }) end, { desc = "telescope nvchad themes" })

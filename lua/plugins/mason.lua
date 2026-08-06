@@ -13,4 +13,9 @@ return {
       require("nvchad.mason").install_all(opts.ensure_installed)
     end, {})
   end,
+  dependencies = {
+    "stevearc/dressing.nvim",
+    opts = {},
+    event = "VeryLazy",
+  }
 }

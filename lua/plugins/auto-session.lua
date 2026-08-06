@@ -2,7 +2,7 @@ return {
   "rmagatti/auto-session",
   lazy = false,
   opts = {
-    auto_session_enabled = true,
+    enabled = true,
     -- auto_save_enabled = true,
     log_level = "info",
     cwd_change_handling = {

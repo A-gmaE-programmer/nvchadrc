@@ -17,6 +17,9 @@ map('i', '<tab>', function ()
   return '<tab>'
 end, { expr = true })
 
+-- Jumplist cause I'm lazy to remember registers
+map("n", "';", "<cmd>Telescope jumplist<cr>", { desc = "telescope jumplist" })
+
 -- Window jumping
 -- map("n", "<C-h>", "<C-w>h", { desc = "switch window left" })
 -- map("n", "<C-l>", "<C-w>l", { desc = "switch window right" })

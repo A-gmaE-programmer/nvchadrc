@@ -43,3 +43,10 @@ autocmd('FileType', {
     vim.cmd("echo 'Adjusting line breaks'")
   end
 })
+
+autocmd('Filetype', {
+  pattern = { "c", "cpp" },
+  callback = function ()
+    vim.treesitter.start()
+  end
+})

@@ -12,12 +12,17 @@ local options = {
     "bash", "python", "lua", "luadoc",
 
     "markdown", "markdown_inline", "query",
-    "vim", "vimdoc", "latex",
+    "vim", "vimdoc", -- "latex",
   },
   indent = {
-    enable = true,
-    disable = {
-      "python",
+    enable = {
+      "css", "html", "javascript",
+      "jsdoc", "typescript", "tsx",
+
+      "bash", "lua", "luadoc",
+
+      "markdown", "markdown_inline", "query",
+      "vim", "vimdoc", "latex",
     },
   },
   compilers = {
