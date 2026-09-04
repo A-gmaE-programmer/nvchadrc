@@ -1,33 +1,52 @@
 return {
   "mfussenegger/nvim-lint",
   event = { "BufReadPost", "BufNewFile", "BufWritePost" },
+  cmd = { "Lint", "LintClear" },
   config = function()
     local lint = require("lint")
 
     -- 1. Define linters by filetype
     lint.linters_by_ft = {
-      -- javascript = { "eslint_d" },
-      -- typescript = { "eslint_d" },
-      -- javascriptreact = { "eslint_d" },
-      -- typescriptreact = { "eslint_d" },
-      -- python = { "pylint" },
+      javascript = { "eslint_d" },
+      typescript = { "eslint_d" },
+      javascriptreact = { "eslint_d" },
+      typescriptreact = { "eslint_d" },
+      python = { "pylint" },
       -- go = { "golangcilint" },
     }
 
-    table.insert(lint.linters.pylint.args, {
-      "--disable=C0111",
-      "--disable=C0116",
-      "--max-line-length", "120"
+    lint.linters.pylint.args = {
+      "-f", "json",
+      "--disable=C0114", -- Module doctring
+      "--disable=C0115", -- Function doctring
+      "--disable=C0116", -- Class docstring
+      "--max-line-length=80",
+      "--from-stdin",
+      function() return vim.api.nvim_buf_get_name(0) end,
+    }
+
+    -- :Lint — manually run linters
+    vim.api.nvim_create_user_command("Lint", function()
+      lint.try_lint()
+    end, {
+      desc = "Run linters for current file",
+    })
+
+    -- :LintClear — clear all linter diagnostics for current buffer
+    vim.api.nvim_create_user_command("LintClear", function()
+      vim.diagnostic.reset(nil, 0)
+    end, {
+      desc = "Clear linter diagnostics for current buffer",
     })
 
     -- 2. Create an autocommand to trigger linting automatically
-    local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-    vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-      group = lint_augroup,
-      callback = function()
-        lint.try_lint()
-      end,
-    })
+    -- local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+    -- vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+    --   group = lint_augroup,
+    --   callback = function()
+    --     lint.try_lint()
+    --   end,
+    -- })
 
     -- 3. Optional: Set up a keymap to manually force linting
     vim.keymap.set("n", "<leader>ll", function()

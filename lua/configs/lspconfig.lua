@@ -1,4 +1,30 @@
-local map = vim.keymap.set
+
+-- 1. Setup Global Capabilities
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = vim.tbl_deep_extend(
+  "force",
+  capabilities,
+  require("cmp_nvim_lsp").default_capabilities()
+)
+table.insert(capabilities.textDocument.completion.completionItem.resolveSupport, "detail")
+vim.tbl_deep_extend(
+  "force",
+  capabilities,
+  { general = { markdown = { allowedTags = { "<u>", "<b>" } } } }
+)
+
+-- 2. Apply Global Defaults
+vim.lsp.config("*", {
+  capabilities = capabilities,
+  -- on_init = function (client, _)
+  --   -- Disable semantic tokens if desired
+  --   if client.supports_method("textDocument/semanticTokens") then
+  --     client.server_capabilities.semanticTokensProvider = nil
+  --   end
+  -- end
+})
+
+-- 3. Language specific configurations
 local servers = {
 
   --- Web dev
@@ -45,93 +71,64 @@ local servers = {
   zls = {},
   rust_analyzer = {},
 
-  cmake = { root_dir = { "CMakePresets.json", "CTestConfig.cmake", ".git", "build", "cmake", "CMakeLists.txt" } },
+  cmake = { root_markers = { "CMakePresets.json", "CTestConfig.cmake", ".git", "build", "cmake", "CMakeLists.txt" } },
 
   ltex_plus = { filetypes = { "nothing" } }, -- Very heavy english language server
   -- harper_ls = { filetypes = { "markdown", "text" } },
   -- markdown_oxide = {},
 }
 
-if os.getenv("CC") ~= "gcc.exe" then
-elseif string.find(os.getenv("Include") or "", "ucrt64-mingw64-mcf-gcc", 1, true) then
-  servers.clangd.init_options = { fallbackFlags = { "--target=x86_64-w64-mingw32" } }
+local include_env = os.getenv("Include") or ""
+if os.getenv("CC") == "gcc.exe"
+and string.find(include_env, "ucrt64-mingw64-mcf-gcc", 1, true) then
+  servers.clangd.init_options = {
+    fallbackFlags = { "--target=x86_64-w64-mingw32" }
+  }
 end
 
-local on_attach = function(_, bufnr)
-  local function opts(desc)
-    return { buffer = bufnr, desc = "LSP " .. desc }
+-- 4. Register and Enable Servers
+local server_names = {}
+for name, opts in pairs(servers) do
+  table.insert(server_names, name)
+  -- Only call vim.lsp.config if configuration required
+  if next(opts) ~= nil then
+    vim.lsp.config(name, opts)
   end
-
-  -- Jumping to stuff
-  map("n", "gD", vim.lsp.buf.declaration, opts "Go to declaration")
-  map("n", "gd", vim.lsp.buf.definition, opts "Go to definition")
-  map("n", "gi", vim.lsp.buf.implementation, opts "Go to implementation")
-  map("n", "gr", vim.lsp.buf.references, opts "Show references")
-  map("n", "<leader>D", vim.lsp.buf.type_definition, opts "Go to type definition")
-  map('n', '<leader>lq', vim.lsp.buf.code_action, opts "Quick Fix" )
-  -- map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
-
-  -- LSP info
-  map({'n', 'v'}, 'K', vim.lsp.buf.hover, { noremap = true, desc = "Lsp Info" })
-  map("n", "<leader>sh", vim.lsp.buf.signature_help, opts "Show signature help")
-
-  -- Workspace folders (what does lsp scan)
-  map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts "Add workspace folder")
-  map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts "Remove workspace folder")
-  map("n", "<leader>wl", function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, opts "List workspace folders")
-
-  -- Smart lsp renamer
-  -- map("n", "<leader>ra", function()
-  map("n", "<leader>lr", function()
-    require "nvchad.lsp.renamer"()
-  end, opts "NvRenamer")
-
 end
 
--- disable semanticTokens
-local on_init = function(client, _)
-  -- if client.supports_method "textDocument/semanticTokens" then
-  --   client.server_capabilities.semanticTokensProvider = nil
-  -- end
-end
+vim.lsp.enable(server_names)
 
--- Enable various completion support
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem = {
-  documentationFormat = { "markdown", "plaintext" },
-  snippetSupport = true,
-  preselectSupport = true,
-  insertReplaceSupport = true,
-  labelDetailsSupport = true,
-  deprecatedSupport = true,
-  commitCharactersSupport = true,
-  tagSupport = { valueSet = { 1 } },
-  resolveSupport = {
-    properties = {
-      "documentation",
-      "detail",
-      "additionalTextEdits",
-    },
-  },
-}
+-- 5. LspAttach Autocommand
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
+  callback = function(ev)
+    local map = vim.keymap.set
+    local function opts(desc)
+      return { buffer = ev.buf, desc = "LSP " .. desc }
+    end
 
-for lsp, opts in pairs(servers) do
-  opts.on_attach = on_attach
-  opts.on_init = on_init
-  opts.capabilities = capabilities
-  vim.lsp.config(lsp, opts)
-  vim.lsp.enable(lsp)
-end
+    -- Jumping to stuff
+    map("n", "gD", vim.lsp.buf.declaration, opts "Go to declaration")
+    map("n", "gd", vim.lsp.buf.definition, opts "Go to definition")
+    map("n", "gi", vim.lsp.buf.implementation, opts "Go to implementation")
+    map("n", "gr", vim.lsp.buf.references, opts "Show references")
+    map("n", "<leader>D", vim.lsp.buf.type_definition, opts "Go to type definition")
+    map('n', '<leader>lq', vim.lsp.buf.code_action, opts "Quick Fix" )
+    -- map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts "Code action")
 
--- EXAMPLE 
--- local on_attach = function (client, bufnum)
--- function on_attach(client, bufnum)
---   print("Lsp attaching")
---   vim.keymap.set({'n', 'v'}, "K", vim.lsp.buf.hover, {
---     desc = "Lsp Hover",
---     -- buffer = bufnum,
---   })
---   configs.on_attach(client, bufnum)
--- end
+    -- LSP info
+    map({'n', 'v'}, 'K', vim.lsp.buf.hover, { noremap = true, desc = "Lsp Info" })
+    map("n", "<leader>sh", vim.lsp.buf.signature_help, opts "Show signature help")
+
+    -- Workspace folders (what does lsp scan)
+    map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts "Add workspace folder")
+    map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts "Remove workspace folder")
+    map("n", "<leader>wl", function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts "List workspace folders")
+
+    -- Smart lsp renamer
+    -- map("n", "<leader>ra", function()
+    map("n", "<leader>lr", require "nvchad.lsp.renamer", opts "NvRenamer")
+  end
+})
